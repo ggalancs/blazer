@@ -67,29 +67,29 @@ module Blazer
 
     private
 
-      def set_state
-        self.state ||= "new"
-      end
+    def set_state
+      self.state ||= "new"
+    end
 
-      def fix_emails
-        # some people like doing ; instead of ,
-        # but we know what they mean, so let's fix it
-        # also, some people like to use whitespace
-        if emails.present?
-          self.emails = emails.strip.gsub(/[;\s]/, ",").gsub(/,+/, ", ")
-        end
+    def fix_emails
+      # some people like doing ; instead of ,
+      # but we know what they mean, so let's fix it
+      # also, some people like to use whitespace
+      if emails.present?
+        self.emails = emails.strip.gsub(/[;\s]/, ",").gsub(/,+/, ", ")
       end
+    end
 
-      def validate_emails
-        unless split_emails.all? { |e| e =~ /\A\S+@\S+\.\S+\z/ }
-          errors.add(:base, "Invalid emails")
-        end
+    def validate_emails
+      unless split_emails.all? { |e| e =~ /\A\S+@\S+\.\S+\z/ }
+        errors.add(:base, "Invalid emails")
       end
+    end
 
-      def validate_variables
-        if query.variables.any?
-          errors.add(:base, "Query can't have variables")
-        end
+    def validate_variables
+      if query.variables.any?
+        errors.add(:base, "Query can't have variables")
       end
+    end
   end
 end
